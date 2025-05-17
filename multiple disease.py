@@ -33,7 +33,7 @@ st.set_page_config(
 with st.sidebar:
     selected = option_menu(
         'Multiple Disease Prediction System',
-        ['Home', 'Diabetes Prediction', 'Heart Disease Prediction', 'Parkinson Prediction', 'History'],
+        ['Home', 'Diabetes Prediction', 'Heart Disease Prediction',  'History'],
         icons=['house','activity', 'heart-pulse', 'person-arms-up', 'book'],
         default_index=0
     )
@@ -296,91 +296,33 @@ if selected == 'Heart Disease Prediction':
         except ValueError:
             st.error("Please enter valid numeric inputs.")
 
-# Parkinson Prediction Page
-if selected == 'Parkinson Prediction':
-    st.title('Parkinson Disease Prediction using ML')
 
-    # Input fields
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        Name = st.text_input('Name of the patient')
-    with col2:
-        fo = st.text_input('MDVP:Fo(Hz)')
-    with col3:
-        fhi = st.text_input('MDVP:Fhi(Hz)')
-    with col1:
-        flo = st.text_input('MDVP:Flo(Hz)')
-    with col2:
-        Jitter_percent = st.text_input('MDVP:Jitter(%)')
-    with col3:
-        Jitter_Abs = st.text_input('MDVP:Jitter(Abs)')
-    with col1:
-        RAP = st.text_input('MDVP:RAP')
-    with col2:
-        DDP = st.text_input('MDVP:DDP')
-    with col3:
-        Shimmer = st.text_input('MDVP:Shimmer')
-    with col1:
-        Shimmer_dB = st.text_input('MDVP:Shimmer(dB)')
-    with col2:
-        APQ3 = st.text_input('MDVP:Shimmer:APQ3')
-    with col3:
-        APQ5 = st.text_input('MDVP:Shimmer:APQ5')
-    with col1:
-        APQ = st.text_input('MDVP:APQ')
-    with col2:
-        DDA = st.text_input('MDVP:Shimmer:DDA')
-    with col3:
-        NHR = st.text_input('NHR')
-    with col1:
-        HNR = st.text_input('HNR')
-    with col2:
-        RDPE = st.text_input('RPDE')
-    with col3:
-        DFA = st.text_input('DFA')
-    with col1:
-        spread1 = st.text_input('spread1')
-    with col2:
-        spread2 = st.text_input('spread2')
-    with col3:
-        D2 = st.text_input('D2')
-    with col1:
-        PPE = st.text_input('PPE')
 
-    # Code for prediction
-    parkinson_diagnosis = ''
-    st.button('Upload Report')
-    str(Name)
-    if st.button('Parkinson Test Result'):
-        try:
-            # Convert inputs to float
-            parkinson_prediction = parkinson_model.predict([[float(fo), float(fhi), float(flo), float(Jitter_percent), 
-                                                             float(Jitter_Abs), float(RAP), float(DDP), 
-                                                             float(Shimmer), float(Shimmer_dB), float(APQ3), 
-                                                             float(APQ5), float(APQ), float(DDA), float(NHR), 
-                                                             float(HNR), float(RDPE), float(DFA), float(spread1), 
-                                                             float(spread2), float(D2), float(PPE)]])
-            if parkinson_prediction[0] == 1:
-                parkinson_diagnosis = 'The person has Parkinson Disease'
-                st.success(parkinson_diagnosis)
-                # Show prevention tips for Parkinson's disease
-                show_prevention_tips("Parkinson’s")
-            else:
-                parkinson_diagnosis = 'The person is Healthy'
-                st.success(parkinson_diagnosis)
-        except ValueError:
-            st.error("Please enter valid numeric inputs.")
             
 # History Page
+ 
 if selected == 'History':
     st.title('Prediction History')
-    patient_name = st.text_input("Enter Patient Name to Filter (Optional):")
-    if patient_name:
-        history = disease_database.query_diagnosis_data(patient_name=patient_name)
-    else:
-        history = disease_database.query_diagnosis_data()
+
+    # Load previous history from the database
+    history = disease_database.query_diagnosis_data()
+
+    # Display available history
     if history:
         for row in history:
             st.write(f"ID: {row[0]}, Patient: {row[1]}, Test: {row[2]}, Results: {row[3]}, Diagnosis: {row[4]}, Time: {row[5]}")
-    else:
-        st.write("No prediction history available.")
+   
+
+    # Input for new patient name
+    new_patient_name = st.text_input("Enter a new Patient Name to add to History:")
+    
+    if new_patient_name:
+        # Query database with the new patient name
+        new_patient_history = disease_database.query_diagnosis_data(patient_name=new_patient_name)
+        
+        if new_patient_history:
+            st.write("Newly entered patient history:")
+            for row in new_patient_history:
+                st.write(f"ID: {row[0]}, Patient: {row[1]}, Test: {row[2]}, Results: {row[3]}, Diagnosis: {row[4]}, Time: {row[5]}")
+        else:
+            st.write(f"No history available for {new_patient_name}.")

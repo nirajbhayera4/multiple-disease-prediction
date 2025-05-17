@@ -89,7 +89,7 @@ def query_diagnosis_data(db_name="medical_diagnosis.db", patient_name=None):
 create_diagnosis_database()
 insert_diagnosis_data(data=("Alice Smith", "Blood Test", "Glucose: 110, Cholesterol: 200", "Prediabetes",))
 insert_diagnosis_data(data=("Bob Johnson", "ECG", "Normal Sinus Rhythm", "Healthy",))
-insert_diagnosis_data(data=("Alice Smith", "MRI", "No abnormalities detected", "Healthy",))
+insert_diagnosis_data(data=("Niraj ", "MRI", "No abnormalities detected", "Healthy",))
 
 print("\nAll Patient Diagnoses:")
 query_diagnosis_data()
@@ -97,5 +97,5 @@ query_diagnosis_data()
 print("\nAlice Smith's Diagnoses:")
 query_diagnosis_data(patient_name="Alice Smith")
 
-print("\nBob Johnson's Diagnoses:")
-query_diagnosis_data(patient_name="Bob Johnson")
+print("\nNiraj's Diagnoses:")
+query_diagnosis_data(patient_name="Niraj")
