@@ -65,7 +65,7 @@ if selected == 'Home':
 
         - **Diabetes**
         - **Heart Disease**
-        - **Parkinson's Disease**
+        
 
         Simply provide your health details, and get accurate predictions along with preventive tips.
 
