@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 10 09:45:01 2025
-
-@author: hp
-"""
+ 
 
 import sqlite3
 import datetime
