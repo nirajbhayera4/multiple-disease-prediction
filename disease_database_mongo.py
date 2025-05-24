@@ -9,6 +9,7 @@ from datetime import datetime
 
 @st.cache_resource
 def get_mongo_client():
+    
     """Establishes and caches the MongoDB client connection."""
     try:
         client = MongoClient(st.secrets["mongo"]["uri"])
